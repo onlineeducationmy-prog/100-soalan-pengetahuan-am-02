@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 KUIZ LATIHAN PENGETAHUAN AM - UJIAN PKSK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        pksk: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+
+    <header class="bg-slate-900/80 border-b border-slate-800 backdrop-blur sticky top-0 z-50 text-white px-4 py-3">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-blue-600 to-indigo-500 text-white p-2 rounded-xl shadow-lg">
+                    <i class="fa-solid font-bold text-lg fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">UJIAN PKSK</h1>
+                    <p class="text-xs text-slate-400 font-medium">Pengetahuan Am & Isu Semasa</p>
+                </div>
+            </div>
+            
+            <div id="quiz-status-bar" class="hidden flex items-center space-x-3">
+                <button onclick="toggleQuestionGrid()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
+                    <i class="fa-solid fa-th-large"></i>
+                    <span class="hidden sm:inline">Navigasi Soalan</span>
+                </button>
+                <div class="bg-blue-900/50 border border-blue-700/50 text-blue-300 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                    Skor: <span id="current-score" class="text-white font-bold">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-4xl mx-auto">
+            
+            <div id="welcome-screen" class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-700/30 text-center relative overflow-hidden my-auto">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="inline-flex items-center space-x-2 bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border border-blue-100">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span>Mod Interaktif Simulasi PKSK</span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">
+                    100 KUIZ LATIHAN PENGETAHUAN AM
+                </h1>
+                
+                <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base mb-8 leading-relaxed">
+                    Sediakan diri anda untuk Ujian Pentaksiran Kemasukan Sekolah Khusus (PKSK). Kuiz ini mengandungi 100 soalan Pengetahuan Am lengkap bersama maklum balas serta-merta dan huraian jawapan.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8 text-left">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                        <i class="fa-solid fa-list-check text-blue-600 text-lg mb-2 block"></i>
+                        <h2 class="text-xs text-slate-500 uppercase font-bold">Jumlah Soalan</h2>
+                        <p class="text-lg font-bold text-slate-800">100 Soalan</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                        <i class="fa-solid fa-bolt text-amber-500 text-lg mb-2 block"></i>
+                        <h2 class="text-xs text-slate-500 uppercase font-bold">Semakan</h2>
+                        <p class="text-lg font-bold text-slate-800">Automatik & Huraian</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                        <i class="fa-solid fa-mobile-screen-button text-emerald-500 text-lg mb-2 block"></i>
+                        <h2 class="text-xs text-slate-500 uppercase font-bold">Platform</h2>
+                        <p class="text-lg font-bold text-slate-800">Mesra Peranti</p>
+                    </div>
+                </div>
+
+                <button onclick="startQuiz()" class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-lg px-10 py-4 rounded-2xl shadow-xl hover:shadow-blue-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    MULA <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <div id="quiz-screen" class="hidden glass-card rounded-3xl p-5 sm:p-8 shadow-2xl border border-slate-700/30">
+                <!-- Progress & Tracker -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-2">
+                        <span>SOALAN <span id="current-q-num" class="text-blue-600 text-base">1</span> / 100</span>
+                        <span id="progress-percent" class="text-slate-400">1%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden p-0.5">
+                        <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-300 w-[1%]"></div>
+                    </div>
+                </div>
+
+                <!-- Question Text -->
+                <div class="mb-6">
+                    <h2 id="question-text" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+                        --
+                    </h2>
+                </div>
+
+                <!-- Options -->
+                <div id="options-container" class="space-y-3 mb-6">
+                    <!-- Options injected via JS -->
+                </div>
+
+                <!-- Feedback Section -->
+                <div id="feedback-box" class="hidden mb-6 p-4 sm:p-5 rounded-2xl border transition-all">
+                    <div id="feedback-title" class="font-bold text-base mb-1 flex items-center gap-2"></div>
+                    <div id="feedback-explanation" class="text-sm leading-relaxed"></div>
+                </div>
+
+                <!-- Nav Controls -->
+                <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+                    <button id="btn-prev" onclick="prevQuestion()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-5 py-3 rounded-xl text-sm transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Kembali</span>
+                    </button>
+
+                    <button id="btn-next" onclick="nextQuestion()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-blue-500/20 flex items-center space-x-2">
+                        <span>Seterusnya</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-screen" class="hidden glass-card rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-700/30 text-center">
+                <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-2">KEPUTUSAN UJIAN</h2>
+                <p class="text-slate-500 text-sm mb-6">Tahniah kerana telah melengkapkan 100 Kuiz Latihan Pengetahuan Am!</p>
+
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-3xl max-w-sm mx-auto mb-8 shadow-xl">
+                    <div class="text-xs uppercase font-bold tracking-widest text-slate-400 mb-1">Skor Akhir Anda</div>
+                    <div class="text-5xl font-black text-blue-400 mb-2"><span id="final-score">0</span><span class="text-2xl text-slate-400">/100</span></div>
+                    <div id="grade-badge" class="inline-block bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs px-3 py-1 rounded-full font-bold">
+                        --
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8">
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl">
+                        <div class="text-xs font-bold text-emerald-600 uppercase">Betul</div>
+                        <div id="correct-count" class="text-2xl font-black text-emerald-700">0</div>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl">
+                        <div class="text-xs font-bold text-rose-600 uppercase">Salah</div>
+                        <div id="wrong-count" class="text-2xl font-black text-rose-700">0</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button onclick="restartQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-2xl transition shadow-lg shadow-blue-500/20">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Cuba Lagi
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="grid-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 max-h-[85vh] flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-th text-blue-600"></i> Navigasi Soalan (1 - 100)
+                </h3>
+                <button onclick="toggleQuestionGrid()" class="text-slate-400 hover:text-slate-600 p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-4 text-xs flex gap-4 bg-slate-50 my-3 rounded-xl border border-slate-100">
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Betul</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Salah</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Semasa</div>
+                <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-200 inline-block"></span> Belum Jawab</div>
+            </div>
+            <div id="grid-buttons" class="grid grid-cols-5 sm:grid-cols-10 gap-2 overflow-y-auto p-2 custom-scrollbar flex-grow">
+                <!-- Buttons dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-500 text-xs text-center py-4 px-4">
+        <p>© 2026 UJIAN PKSK - Modul Kuiz Pengetahuan Am Interaktif. Hak Cipta Terpelihara.</p>
+    </footer>
+
+    <script>
+        // Database of 100 Questions sourced strictly from user prompt
+        const quizData = [
+            { id: 1, q: "Muzium yang diiktiraf sebagai muzium tertua di Malaysia ialah:", opts: ["Muzium Negara", "Muzium Perak", "Muzium Kesenian Islam Malaysia", "Muzium Diraja"], ans: "B", exp: "Muzium Perak. Muzium Perak di Taiping ditubuhkan pada tahun 1883 dan merupakan muzium tertua di Malaysia." },
+            { id: 2, q: "Apakah fungsi utama Arkib Negara Malaysia?", opts: ["Menguruskan pengangkutan awam", "Mengeluarkan pasport antarabangsa", "Memelihara rekod dan dokumen bernilai sejarah", "Menguruskan pertandingan sukan negara"], ans: "C", exp: "Memelihara rekod dan dokumen bernilai sejarah. Arkib Negara membantu memelihara rekod yang penting untuk rujukan, pentadbiran dan penyelidikan sejarah." },
+            { id: 3, q: "Seni persembahan tradisional yang menggunakan patung dan bayang-bayang dikenali sebagai:", opts: ["Mak yong", "Wayang kulit", "Dondang sayang", "Boria"], ans: "B", exp: "Wayang kulit. Persembahan ini menggunakan patung dan cahaya untuk menghasilkan bayang-bayang pada layar." },
+            { id: 4, q: "Sape merupakan alat muzik tradisional yang dikaitkan dengan masyarakat Orang Ulu di negeri:", opts: ["Perlis", "Johor", "Sarawak", "Negeri Sembilan"], ans: "C", exp: "Sarawak. Sape ialah alat muzik tradisional yang dikaitkan dengan masyarakat Orang Ulu di Sarawak." },
+            { id: 5, q: "Apakah nama seni bela diri tradisional yang diwarisi dalam masyarakat Melayu?", opts: ["Silat", "Kendo", "Taekwondo", "Judo"], ans: "A", exp: "Silat. Silat ialah seni bela diri tradisional yang turut mempunyai nilai budaya dan disiplin diri." },
+            { id: 6, q: "Seni nyanyian tradisional yang berasal dari Melaka dan terkenal dengan persembahan pantun secara spontan ialah:", opts: ["Dondang sayang", "Zapin", "Kuda kepang", "Joget lambak"], ans: "A", exp: "Dondang sayang. Seni nyanyian tradisional ini berasal dari Melaka dan sering melibatkan pertukaran pantun secara spontan." },
+            { id: 7, q: "Wau bulan paling sinonim dengan tradisi permainan layang-layang di negeri:", opts: ["Perlis", "Kelantan", "Melaka", "Selangor"], ans: "B", exp: "Kelantan. Wau bulan terkenal sebagai salah satu warisan permainan tradisional yang sinonim dengan Kelantan." },
+            { id: 8, q: "Apakah nama kain tradisional yang menggunakan benang emas atau perak untuk menghasilkan corak yang menarik?", opts: ["Denim", "Kanvas", "Songket", "Baldu"], ans: "C", exp: "Songket. Songket ialah kain tradisional yang menggunakan benang tambahan, termasuk benang emas atau perak, untuk menghasilkan corak hiasan." },
+            { id: 9, q: "Kain batik tradisional sering dihasilkan menggunakan teknik yang melibatkan bahan apakah untuk menghalang warna daripada meresap pada bahagian tertentu?", opts: ["Simen", "Lilin", "Pasir", "Kapur tulis sahaja"], ans: "B", exp: "Lilin. Dalam teknik batik tertentu, lilin digunakan untuk menghalang warna daripada meresap pada bahagian kain yang dilindungi." },
+            { id: 10, q: "Tarian kuda kepang terkenal sebagai seni persembahan tradisional yang dikaitkan dengan negeri:", opts: ["Johor", "Perlis", "Sabah", "Pulau Pinang"], ans: "A", exp: "Johor. Kuda kepang merupakan seni persembahan tradisional yang terkenal di Johor." },
+            { id: 11, q: "Rumah panjang merupakan bentuk kediaman tradisional yang terkenal dalam kalangan beberapa masyarakat peribumi di:", opts: ["Melaka", "Sarawak", "Perlis", "Pulau Pinang"], ans: "B", exp: "Sarawak. Rumah panjang ialah bentuk kediaman tradisional yang dikaitkan dengan beberapa masyarakat peribumi Sarawak." },
+            { id: 12, q: "Pesta Kaamatan disambut terutamanya sebagai perayaan menuai oleh masyarakat Kadazandusun di:", opts: ["Kelantan", "Sabah", "Perak", "Johor"], ans: "B", exp: "Sabah. Pesta Kaamatan ialah perayaan menuai yang penting bagi masyarakat Kadazandusun dan beberapa komuniti lain di Sabah." },
+            { id: 13, q: "Pesta Gawai Dayak merupakan perayaan yang terkenal di:", opts: ["Sarawak", "Kedah", "Melaka", "Negeri Sembilan"], ans: "A", exp: "Sarawak. Gawai Dayak merupakan perayaan yang dikaitkan dengan masyarakat Dayak di Sarawak." },
+            { id: 14, q: "Sompoton ialah alat muzik tradisional yang dikaitkan dengan masyarakat Kadazandusun di:", opts: ["Pahang", "Sabah", "Terengganu", "Perak"], ans: "B", exp: "Sabah. Sompoton ialah alat muzik tradisional yang dikaitkan dengan masyarakat Kadazandusun." },
+            { id: 15, q: "Seni persembahan tradisional Melayu yang menggabungkan lakonan, tarian, muzik dan nyanyian dikenali sebagai:", opts: ["Mak yong", "Dondang sayang", "Seni khat", "Anyaman"], ans: "A", exp: "Mak yong. Mak yong menggabungkan lakonan, tarian, muzik dan nyanyian dalam satu bentuk seni persembahan tradisional." },
+            { id: 16, q: "Agensi kerajaan yang bertanggungjawab terhadap urusan berkaitan warisan kebangsaan ialah:", opts: ["Jabatan Warisan Negara", "Jabatan Pengangkutan Jalan", "Jabatan Pendaftaran Negara", "Jabatan Meteorologi Malaysia"], ans: "A", exp: "Jabatan Warisan Negara. Jabatan ini bertanggungjawab terhadap pelbagai urusan berkaitan pemeliharaan dan pengurusan warisan kebangsaan." },
+            { id: 17, q: "Pantun, cerita rakyat dan seni persembahan tradisional merupakan contoh warisan:", opts: ["Ketenteraan semata-mata", "Tidak ketara", "Perindustrian", "Geologi sahaja"], ans: "B", exp: "Tidak ketara. Pantun, cerita rakyat dan seni persembahan ialah contoh warisan budaya tidak ketara kerana diwarisi melalui pengetahuan dan amalan." },
+            { id: 18, q: "Mengapakah artifak sejarah dipelihara di muzium?", opts: ["Untuk mengelakkan masyarakat mempelajari sejarah", "Untuk menggantikan semua buku teks", "Untuk memelihara bukti sejarah dan mendidik masyarakat", "Untuk menjadikan semua artifak sebagai barang jualan"], ans: "C", exp: "Untuk memelihara bukti sejarah dan mendidik masyarakat. Artifak membantu masyarakat memahami kehidupan, budaya dan peristiwa pada masa lalu." },
+            { id: 19, q: "Muzium Negara terletak di kawasan Jalan Damansara, dalam bandar:", opts: ["Ipoh", "Kuala Lumpur", "Kuching", "Kota Bharu"], ans: "B", exp: "Kuala Lumpur. Muzium Negara terletak di Jalan Damansara, Kuala Lumpur." },
+            { id: 20, q: "Apakah tindakan paling sesuai untuk membantu memelihara bangunan warisan?", opts: ["Menconteng dindingnya", "Mengambil bahan binaannya sebagai cenderamata", "Mematuhi peraturan pemuliharaan dan tidak merosakkannya", "Mengubah suai bangunan tanpa kebenaran"], ans: "C", exp: "Mematuhi peraturan pemuliharaan dan tidak merosakkannya. Tindakan ini membantu memastikan bangunan warisan dapat dipelihara untuk generasi akan datang." },
+
+            { id: 21, q: "Badan yang mentafsir undang-undang dan menyelesaikan pertikaian melalui proses kehakiman ialah:", opts: ["Badan kehakiman", "Badan perundangan", "Badan eksekutif sahaja", "Pihak berkuasa pelancongan"], ans: "A", exp: "Badan kehakiman. Badan kehakiman mentafsir undang-undang dan mengendalikan pertikaian melalui proses mahkamah." },
+            { id: 22, q: "Antara berikut, yang manakah merupakan peranan ahli Dewan Rakyat?", opts: ["Mengadili semua kes jenayah", "Membahaskan rang undang-undang dan isu kepentingan rakyat", "Mengeluarkan semua lesen memandu", "Menentukan keputusan setiap pertandingan sukan"], ans: "B", exp: "Membahaskan rang undang-undang dan isu kepentingan rakyat. Ahli Dewan Rakyat mewakili rakyat dalam perbahasan dan urusan perundangan." },
+            { id: 23, q: "Parlimen Malaysia mempunyai dua dewan utama, iaitu:", opts: ["Dewan Rakyat dan Dewan Negara", "Dewan Menteri dan Dewan Hakim", "Dewan Negeri dan Dewan Bandaraya", "Dewan Diraja dan Dewan Kehakiman"], ans: "A", exp: "Dewan Rakyat dan Dewan Negara. Kedua-duanya ialah dua dewan yang membentuk Parlimen Malaysia." },
+            { id: 24, q: "Apakah tujuan utama pilihan raya?", opts: ["Memilih wakil rakyat melalui proses pengundian", "Melantik semua hakim secara langsung", "Menentukan keputusan peperiksaan sekolah", "Memilih ketua setiap syarikat swasta"], ans: "A", exp: "Memilih wakil rakyat melalui proses pengundian. Pilihan raya membolehkan pengundi memilih wakil mereka mengikut peraturan yang ditetapkan." },
+            { id: 25, q: "Mengapakah pengguna jalan raya perlu mematuhi undang-undang lalu lintas?", opts: ["Supaya perjalanan sentiasa lebih panjang", "Untuk mengelakkan penggunaan pengangkutan awam", "Untuk meningkatkan keselamatan semua pengguna jalan raya", "Supaya pemandu bebas mengabaikan papan tanda"], ans: "C", exp: "Untuk meningkatkan keselamatan semua pengguna jalan raya. Pematuhan undang-undang membantu mengurangkan risiko kemalangan." },
+            { id: 26, q: "Agensi yang bertanggungjawab menguruskan pendaftaran kelahiran dan pengeluaran kad pengenalan di Malaysia ialah:", opts: ["Jabatan Pendaftaran Negara", "Jabatan Imigresen Malaysia sahaja", "Jabatan Perangkaan Malaysia", "Jabatan Alam Sekitar"], ans: "A", exp: "Jabatan Pendaftaran Negara. Jabatan ini menguruskan urusan pendaftaran kelahiran dan dokumen pengenalan diri tertentu, termasuk kad pengenalan." },
+            { id: 27, q: "Agensi yang menguruskan pelbagai urusan berkaitan kenderaan bermotor dan lesen memandu ialah:", opts: ["Jabatan Kebajikan Masyarakat", "Jabatan Pengangkutan Jalan", "Jabatan Warisan Negara", "Jabatan Perikanan Malaysia"], ans: "B", exp: "Jabatan Pengangkutan Jalan. JPJ mengendalikan pelbagai urusan berkaitan lesen memandu dan pendaftaran kenderaan." },
+            { id: 28, q: "Agensi yang memainkan peranan utama dalam operasi memadam kebakaran dan menyelamat mangsa kebakaran ialah:", opts: ["Jabatan Bomba dan Penyelamat Malaysia", "Jabatan Muzium Malaysia", "Jabatan Penerangan Malaysia", "Jabatan Audit Negara"], ans: "A", exp: "Jabatan Bomba dan Penyelamat Malaysia. Antara tugas utamanya ialah memadam kebakaran dan melaksanakan operasi menyelamat." },
+            { id: 29, q: "Angkatan Pertahanan Awam Malaysia membantu masyarakat terutamanya dalam urusan:", opts: ["Menguruskan peperiksaan sekolah", "Mengendalikan semua urusan perbankan", "Bantuan kecemasan, bencana dan operasi menyelamat", "Mengeluarkan lesen perniagaan antarabangsa"], ans: "C", exp: "Bantuan kecemasan, bencana dan operasi menyelamat. Angkatan Pertahanan Awam Malaysia membantu masyarakat sebelum, semasa dan selepas kecemasan atau bencana." },
+            { id: 30, q: "Apakah maksud integriti dalam kehidupan seharian?", opts: ["Mengutamakan keuntungan walaupun melanggar peraturan", "Bertindak jujur dan berpegang pada prinsip moral", "Menyembunyikan kesalahan rakan dalam semua keadaan", "Mengubah fakta untuk mendapatkan pujian"], ans: "B", exp: "Bertindak jujur dan berpegang pada prinsip moral. Integriti bermaksud bersikap jujur, amanah dan bertanggungjawab." },
+            { id: 31, q: "Perbuatan menggunakan kuasa atau kedudukan untuk memperoleh manfaat secara tidak sah boleh dikaitkan dengan:", opts: ["Sukarelawan", "Kerjasama", "Rasuah", "Kebajikan"], ans: "C", exp: "Rasuah. Rasuah melibatkan pemberian atau penerimaan suapan secara tidak sah berkaitan sesuatu tindakan atau kedudukan." },
+            { id: 32, q: "Apakah tindakan yang wajar ketika berkongsi maklumat peribadi di Internet?", opts: ["Memberikan kata laluan kepada orang yang tidak dikenali", "Memuat naik nombor pengenalan tanpa mempertimbangkan risikonya", "Berkongsi semua maklumat perbankan dalam ruang awam", "Mengehadkan perkongsian maklumat sensitif dan melindunginya"], ans: "D", exp: "Mengehadkan perkongsian maklumat sensitif dan melindunginya. Langkah ini mengurangkan risiko penyalahgunaan identiti dan maklumat peribadi." },
+            { id: 33, q: "Organisasi bukan kerajaan yang ditubuhkan untuk tujuan kebajikan atau kemasyarakatan lazimnya dikenali sebagai:", opts: ["NGO", "KDNK", "GPS", "CPU"], ans: "A", exp: "NGO. NGO ialah singkatan bagi organisasi bukan kerajaan yang boleh menjalankan kegiatan kebajikan, pendidikan atau kemasyarakatan." },
+            { id: 34, q: "Seseorang yang menyumbangkan masa dan tenaga untuk membantu masyarakat tanpa menjadikan bayaran sebagai tujuan utama boleh dianggap sebagai:", opts: ["Pelabur saham", "Sukarelawan", "Pengimport", "Penguat kuasa cukai"], ans: "B", exp: "Sukarelawan. Sukarelawan menyumbangkan masa dan tenaga untuk membantu orang lain atau masyarakat." },
+            { id: 35, q: "Apakah contoh amalan kejiranan yang baik?", opts: ["Membuat bising pada waktu malam tanpa mempedulikan orang lain", "Menyebarkan khabar angin tentang jiran", "Saling membantu dan menghormati antara satu sama lain", "Mengabaikan jiran yang memerlukan bantuan kecemasan"], ans: "C", exp: "Saling membantu dan menghormati antara satu sama lain. Amalan ini mengeratkan hubungan kejiranan dan membina komuniti yang harmoni." },
+            { id: 36, q: "Piramid Giza yang terkenal sebagai peninggalan tamadun purba terletak di:", opts: ["Mesir", "India", "Mexico", "Greece"], ans: "A", exp: "Mesir. Piramid Giza ialah peninggalan penting tamadun Mesir purba." },
+            { id: 37, q: "Tembok Besar yang terkenal sebagai binaan bersejarah terletak di:", opts: ["Jepun", "China", "Korea Selatan", "Thailand"], ans: "B", exp: "China. Tembok Besar China dibina dan dikembangkan sepanjang beberapa zaman untuk tujuan pertahanan dan kawalan sempadan." },
+            { id: 38, q: "Tapak arkeologi Machu Picchu terletak di negara:", opts: ["Peru", "Itali", "Mesir", "Kanada"], ans: "A", exp: "Peru. Machu Picchu ialah tapak arkeologi terkenal yang dikaitkan dengan tamadun Inca." },
+            { id: 39, q: "Menara Condong Pisa yang terkenal terletak di:", opts: ["Sepanyol", "Itali", "Portugal", "Jerman"], ans: "B", exp: "Itali. Menara Condong Pisa terkenal kerana kedudukannya yang condong." },
+            { id: 40, q: "Taj Mahal, sebuah monumen terkenal yang dibina daripada marmar putih, terletak di:", opts: ["Pakistan", "India", "Nepal", "Sri Lanka"], ans: "B", exp: "India. Taj Mahal terletak di Agra dan terkenal dengan seni bina serta marmar putihnya." },
+
+            { id: 41, q: "Garisan khayalan yang membahagikan Bumi kepada Hemisfera Utara dan Hemisfera Selatan dikenali sebagai:", opts: ["Garisan Khatulistiwa", "Garisan Meridian Pangkal", "Garisan Tarikh Antarabangsa sahaja", "Garisan Tropika Capricorn sahaja"], ans: "A", exp: "Garisan Khatulistiwa. Garisan ini membahagikan Bumi kepada Hemisfera Utara dan Hemisfera Selatan." },
+            { id: 42, q: "Garisan Meridian Pangkal yang digunakan sebagai rujukan longitud sifar melalui:", opts: ["Paris", "Greenwich", "Rome", "Tokyo"], ans: "B", exp: "Greenwich. Garisan Meridian Pangkal ditetapkan sebagai longitud sifar dan melalui Greenwich di England." },
+            { id: 43, q: "Benua yang meliputi kawasan sekitar Kutub Selatan ialah:", opts: ["Eropah", "Afrika", "Antartika", "Amerika Selatan"], ans: "C", exp: "Antartika. Antartika mengelilingi Kutub Selatan dan mempunyai iklim yang sangat sejuk." },
+            { id: 44, q: "Bandar Kyoto yang terkenal dengan kuil dan warisan tradisional terletak di:", opts: ["Jepun", "China", "Vietnam", "Mongolia"], ans: "A", exp: "Jepun. Kyoto terkenal dengan kuil, seni bina tradisional dan warisan kebudayaan Jepun." },
+            { id: 45, q: "Sungai Thames mengalir melalui bandar terkenal:", opts: ["London", "Madrid", "Berlin", "Athens"], ans: "A", exp: "London. Sungai Thames mengalir melalui London dan merupakan sungai penting di England." },
+            { id: 46, q: "Sungai Nil mengalir melalui kawasan timur laut Afrika dan sangat penting dalam sejarah tamadun:", opts: ["Mesir", "Norway", "Argentina", "Korea Selatan"], ans: "A", exp: "Mesir. Sungai Nil memainkan peranan besar dalam perkembangan tamadun Mesir purba." },
+            { id: 47, q: "Hutan hujan Amazon yang luas terletak terutamanya di benua:", opts: ["Eropah", "Amerika Selatan", "Australia", "Antartika"], ans: "B", exp: "Amerika Selatan. Hutan hujan Amazon meliputi kawasan luas di Amerika Selatan, khususnya di Brazil." },
+            { id: 48, q: "Apakah nama fenomena apabila Bulan berada di antara Matahari dengan Bumi sehingga menghalang sebahagian atau seluruh cahaya Matahari daripada dilihat dari kawasan tertentu di Bumi?", opts: ["Gerhana Bulan", "Gerhana Matahari", "Hujan meteor", "Aurora"], ans: "B", exp: "Gerhana Matahari. Gerhana Matahari berlaku apabila Bulan berada di antara Matahari dengan Bumi dan menghalang sebahagian atau seluruh cahaya Matahari daripada dilihat dari kawasan tertentu." },
+            { id: 49, q: "Cahaya berwarna-warni yang kadangkala kelihatan di langit kawasan berhampiran kutub dikenali sebagai:", opts: ["Aurora", "Monsun", "Tsunami", "El Niño"], ans: "A", exp: "Aurora. Aurora ialah cahaya semula jadi di langit yang biasanya kelihatan di kawasan berhampiran kutub." },
+            { id: 50, q: "Gegaran pada permukaan Bumi yang biasanya berpunca daripada pelepasan tenaga dalam kerak Bumi dikenali sebagai:", opts: ["Kemarau", "Gempa bumi", "Hakisan pantai", "Pasang surut"], ans: "B", exp: "Gempa bumi. Gempa bumi melibatkan gegaran permukaan Bumi yang biasanya berpunca daripada pelepasan tenaga dalam kerak Bumi." },
+            { id: 51, q: "Sistem bintang yang mengandungi Matahari dan planet-planetnya terletak dalam galaksi yang dikenali sebagai:", opts: ["Andromeda sahaja", "Bima Sakti", "Awan Magellan sahaja", "Nebula Orion sahaja"], ans: "B", exp: "Bima Sakti. Sistem Suria kita terletak dalam galaksi Bima Sakti." },
+            { id: 52, q: "Planet yang terkenal dengan sistem gelang yang jelas kelihatan ialah:", opts: ["Utarid", "Zuhrah", "Zuhal", "Marikh"], ans: "C", exp: "Zuhal. Zuhal terkenal dengan sistem gelangnya yang terdiri daripada bahan seperti ais dan batuan." },
+            { id: 53, q: "Apakah sumber tenaga utama bagi kebanyakan proses semula jadi di Bumi, termasuk fotosintesis?", opts: ["Bulan", "Matahari", "Gunung berapi sahaja", "Angin malam sahaja"], ans: "B", exp: "Matahari. Matahari membekalkan tenaga yang penting untuk fotosintesis dan banyak proses semula jadi di Bumi." },
+            { id: 54, q: "Alat yang digunakan untuk memerhati objek yang sangat jauh seperti planet dan bintang ialah:", opts: ["Mikroskop", "Teleskop", "Barometer", "Termometer"], ans: "B", exp: "Teleskop. Teleskop membantu memerhati objek yang jauh, termasuk planet dan bintang." },
+            { id: 55, q: "Alat yang membantu manusia melihat objek yang terlalu kecil untuk dilihat dengan jelas menggunakan mata kasar ialah:", opts: ["Mikroskop", "Kompas", "Altimeter", "Speedometer"], ans: "A", exp: "Mikroskop. Mikroskop membesarkan imej objek kecil supaya dapat diperhatikan dengan lebih jelas." },
+            { id: 56, q: "Saintis yang terkenal dengan teori relativiti ialah:", opts: ["Albert Einstein", "Alexander Fleming", "Louis Pasteur", "Galileo Galilei"], ans: "A", exp: "Albert Einstein. Einstein terkenal dengan teori relativiti yang memberi sumbangan besar kepada perkembangan fizik." },
+            { id: 57, q: "Alexander Fleming terkenal kerana penemuan:", opts: ["Penisilin", "Teleskop", "Enjin wap", "Telefon"], ans: "A", exp: "Penisilin. Alexander Fleming terkenal kerana penemuan penisilin, sejenis antibiotik." },
+            { id: 58, q: "Apakah unit SI bagi daya?", opts: ["Joule", "Newton", "Watt", "Ampere"], ans: "B", exp: "Newton. Newton ialah unit SI bagi daya." },
+            { id: 59, q: "Apakah unit SI bagi tenaga?", opts: ["Joule", "Newton", "Pascal", "Ampere"], ans: "A", exp: "Joule. Joule ialah unit SI bagi tenaga dan kerja." },
+            { id: 60, q: "Apakah unit SI bagi arus elektrik?", opts: ["Volt", "Ohm", "Ampere", "Watt"], ans: "C", exp: "Ampere. Ampere ialah unit SI bagi arus elektrik." },
+
+            { id: 61, q: "Apakah yang berlaku apabila dua kutub magnet yang sama didekatkan?", opts: ["Kedua-duanya sentiasa bercantum", "Kedua-duanya menolak antara satu sama lain", "Kedua-duanya kehilangan semua sifat magnet serta-merta", "Kedua-duanya bertukar menjadi penebat elektrik"], ans: "B", exp: "Kedua-duanya menolak antara satu sama lain. Kutub magnet yang sama saling menolak, manakala kutub yang berlainan saling menarik." },
+            { id: 62, q: "Bahan yang membenarkan arus elektrik mengalir dengan mudah dikenali sebagai:", opts: ["Penebat", "Konduktor", "Pelincir", "Pemantul"], ans: "B", exp: "Konduktor. Konduktor membenarkan arus elektrik mengalir dengan mudah." },
+            { id: 63, q: "Antara berikut, yang manakah biasanya merupakan penebat elektrik?", opts: ["Kuprum", "Aluminium", "Getah", "Perak"], ans: "C", exp: "Getah. Getah biasanya bertindak sebagai penebat elektrik." },
+            { id: 64, q: "Pada suhu sekitar 25°C, nilai pH 7 biasanya menunjukkan sesuatu larutan bersifat:", opts: ["Berasid kuat", "Beralkali kuat", "Neutral", "Radioaktif"], ans: "C", exp: "Neutral. Pada suhu sekitar 25°C, larutan dengan pH 7 biasanya dianggap neutral." },
+            { id: 65, q: "Gas yang membentuk bahagian terbesar atmosfera Bumi ialah:", opts: ["Oksigen", "Karbon dioksida", "Nitrogen", "Hidrogen"], ans: "C", exp: "Nitrogen. Nitrogen membentuk kira-kira 78% daripada atmosfera Bumi." },
+            { id: 66, q: "Apakah fungsi utama lapisan ozon di stratosfera?", opts: ["Menyerap sebahagian besar sinaran ultraungu berbahaya daripada Matahari", "Menghasilkan semua oksigen yang diperlukan manusia", "Menghalang semua cahaya Matahari daripada sampai ke Bumi", "Menyebabkan semua hujan turun"], ans: "A", exp: "Menyerap sebahagian besar sinaran ultraungu berbahaya daripada Matahari. Lapisan ozon di stratosfera membantu melindungi kehidupan di Bumi daripada sinaran ultraungu tertentu." },
+            { id: 67, q: "Hubungan pemakanan yang menunjukkan pemindahan tenaga daripada satu organisma kepada organisma lain dikenali sebagai:", opts: ["Kitaran batuan", "Rantai makanan", "Kitaran air sahaja", "Kitaran siang dan malam"], ans: "B", exp: "Rantai makanan. Rantai makanan menunjukkan hubungan pemakanan dan pemindahan tenaga antara organisma." },
+            { id: 68, q: "Dalam rantai makanan, tumbuhan hijau biasanya berperanan sebagai:", opts: ["Pengeluar", "Pengguna tertier", "Pemangsa utama", "Pengurai sahaja"], ans: "A", exp: "Pengeluar. Tumbuhan hijau menghasilkan makanan sendiri melalui fotosintesis." },
+            { id: 69, q: "Organisma seperti banyak jenis kulat dan bakteria membantu ekosistem dengan cara:", opts: ["Menghentikan semua proses pereputan", "Menguraikan bahan organik yang mati", "Menghapuskan semua nutrien daripada tanah", "Menghasilkan cahaya Matahari"], ans: "B", exp: "Menguraikan bahan organik yang mati. Pengurai membantu mengembalikan nutrien ke dalam ekosistem." },
+            { id: 70, q: "Proses pemecahan batuan kepada bahagian lebih kecil akibat tindakan cuaca dan perubahan suhu dikenali sebagai:", opts: ["Pemendapan", "Peluluhawaan", "Fotosintesis", "Penyejatan"], ans: "B", exp: "Peluluhawaan. Peluluhawaan ialah proses pemecahan atau perubahan batuan di tempat asal akibat faktor seperti perubahan suhu, air dan tindakan organisma." },
+            { id: 71, q: "Tokoh yang secara meluas dikaitkan dengan penciptaan World Wide Web ialah:", opts: ["Tim Berners-Lee", "Thomas Edison", "Alexander Graham Bell", "James Watt"], ans: "A", exp: "Tim Berners-Lee. Beliau terkenal kerana mencipta World Wide Web, yang membolehkan dokumen dan sumber dihubungkan melalui pautan." },
+            { id: 72, q: "Apakah fungsi utama enjin carian di Internet?", opts: ["Menyejukkan komputer", "Membantu pengguna mencari maklumat dalam talian", "Menggantikan semua sistem operasi", "Menghasilkan bekalan elektrik"], ans: "B", exp: "Membantu pengguna mencari maklumat dalam talian. Enjin carian membantu menemukan laman web dan maklumat berdasarkan kata kunci." },
+            { id: 73, q: "Teknologi yang membolehkan komputer melaksanakan tugas seperti mengenal pasti corak dan memproses bahasa manusia dikenali sebagai:", opts: ["Kecerdasan buatan (AI)", "Kabel gentian optik sahaja", "Pemacu cakera keras", "Sistem pengudaraan"], ans: "A", exp: "Kecerdasan buatan (AI). AI membolehkan sistem komputer melaksanakan tugas tertentu yang biasanya memerlukan kebolehan seperti pengecaman corak atau pemprosesan bahasa." },
+            { id: 74, q: "Apakah maksud pengkomputeran awan (cloud computing)?", opts: ["Menggunakan komputer hanya ketika cuaca mendung", "Menyimpan atau memproses data melalui perkhidmatan komputer yang diakses melalui rangkaian", "Menyimpan semua data di atas kertas", "Menggunakan satelit untuk menggantikan semua komputer"], ans: "B", exp: "Menyimpan atau memproses data melalui perkhidmatan komputer yang diakses melalui rangkaian. Pengkomputeran awan membolehkan pengguna menggunakan sumber komputer tanpa perlu menyimpan semuanya pada peranti sendiri." },
+            { id: 75, q: "Kod QR lazimnya digunakan untuk:", opts: ["Menyimpan maklumat yang boleh diakses dengan mengimbas kod", "Mengukur suhu badan secara automatik tanpa alat lain", "Menghasilkan tenaga elektrik daripada air", "Menggantikan semua kata laluan secara automatik"], ans: "A", exp: "Menyimpan maklumat yang boleh diakses dengan mengimbas kod. Kod QR boleh mengandungi maklumat seperti pautan laman web atau butiran tertentu." },
+            { id: 76, q: "Dalam sistem komputer, pangkalan data digunakan untuk:", opts: ["Menyimpan dan menyusun data supaya mudah diurus", "Menggantikan semua perkakasan komputer", "Menghapuskan keperluan membuat salinan sandaran", "Memperlahankan semua sambungan rangkaian"], ans: "A", exp: "Menyimpan dan menyusun data supaya mudah diurus. Pangkalan data membantu pengguna mencari, mengemas kini dan mengurus maklumat." },
+            { id: 77, q: "Mengapakah salinan sandaran (backup) data penting?", opts: ["Untuk memastikan komputer tidak perlu dikemas kini", "Untuk membantu memulihkan data jika data asal hilang atau rosak", "Untuk menjadikan kata laluan boleh dilihat oleh semua orang", "Untuk mengelakkan semua kerosakan fizikal pada komputer"], ans: "B", exp: "Membantu memulihkan data jika data asal hilang atau rosak. Salinan sandaran mengurangkan risiko kehilangan maklumat penting." },
+            { id: 78, q: "Mesej palsu yang menyamar sebagai pihak dipercayai untuk memperdaya pengguna supaya memberikan maklumat sulit dikenali sebagai:", opts: ["Penstriman", "Pancingan data (phishing)", "Pemampatan fail", "Persidangan video"], ans: "B", exp: "Pancingan data (phishing). Penipuan ini cuba memperdaya pengguna supaya mendedahkan maklumat sulit atau melakukan tindakan yang berbahaya." },
+            { id: 79, q: "Apakah tindakan yang baik untuk mengurangkan risiko keselamatan pada perisian komputer?", opts: ["Mengabaikan semua amaran keselamatan", "Memasang perisian daripada sumber yang tidak diketahui", "Memasang kemas kini keselamatan daripada sumber rasmi", "Berkongsi akaun pentadbir dengan orang yang tidak dikenali"], ans: "C", exp: "Memasang kemas kini keselamatan daripada sumber rasmi. Kemas kini boleh membaiki kelemahan keselamatan yang diketahui." },
+            { id: 80, q: "Teknologi rangkaian mudah alih generasi kelima dikenali sebagai:", opts: ["2G", "3G", "4G", "5G"], ans: "D", exp: "5G. 5G ialah generasi kelima teknologi rangkaian mudah alih." },
+
+            { id: 81, q: "Pengesahan cap jari pada telefon pintar ialah contoh:", opts: ["Pengesahan biometrik", "Pemampatan video", "Pengkomputeran awan semata-mata", "Penyulitan kertas"], ans: "A", exp: "Pengesahan biometrik. Cap jari ialah ciri fizikal yang boleh digunakan untuk mengesahkan identiti pengguna." },
+            { id: 82, q: "Penggunaan mesin atau sistem untuk melaksanakan tugas dengan sedikit campur tangan manusia dikenali sebagai:", opts: ["Automasi", "Pendigitalan kertas semata-mata", "Pengarkiban manual", "Penghantaran surat biasa"], ans: "A", exp: "Automasi. Automasi menggunakan mesin atau sistem untuk melaksanakan tugas dengan kurang campur tangan manusia." },
+            { id: 83, q: "Teknologi yang membina objek tiga dimensi daripada reka bentuk digital lapisan demi lapisan dikenali sebagai:", opts: ["Pengimbasan kod bar", "Pencetakan 3D", "Rakaman audio", "Penghantaran faks"], ans: "B", exp: "Pencetakan 3D. Teknologi ini membina objek tiga dimensi daripada reka bentuk digital, lazimnya lapisan demi lapisan." },
+            { id: 84, q: "Satelit cerapan Bumi boleh digunakan untuk membantu:", opts: ["Memantau perubahan permukaan Bumi dan keadaan alam sekitar", "Menggantikan semua petugas kesihatan", "Menghentikan pergerakan awan", "Mengawal semua gempa bumi"], ans: "A", exp: "Memantau perubahan permukaan Bumi dan keadaan alam sekitar. Satelit cerapan Bumi boleh membantu mengesan perubahan guna tanah, tumbuh-tumbuhan dan keadaan persekitaran." },
+            { id: 85, q: "Antara berikut, yang manakah amalan kata laluan yang lebih selamat?", opts: ["Menggunakan kata laluan yang sama untuk semua akaun", "Berkongsi kata laluan dalam kumpulan sembang awam", "Menggunakan kata laluan yang kukuh dan berbeza bagi akaun penting", "Menggunakan nombor 123456 untuk semua akaun"], ans: "C", exp: "Menggunakan kata laluan yang kukuh dan berbeza bagi akaun penting. Amalan ini mengurangkan risiko satu kata laluan yang bocor digunakan untuk mengakses akaun lain." },
+            { id: 86, q: "Dalam ekonomi, permintaan merujuk kepada:", opts: ["Kuantiti barang atau perkhidmatan yang sanggup dan mampu dibeli oleh pengguna pada harga tertentu", "Jumlah barang yang dibuang oleh kilang", "Semua barang yang disimpan di gudang", "Jumlah cukai yang dibayar oleh pekerja sahaja"], ans: "A", exp: "Kuantiti barang atau perkhidmatan yang sanggup dan mampu dibeli oleh pengguna pada harga tertentu. Permintaan mengambil kira kesanggupan dan kemampuan pengguna untuk membeli." },
+            { id: 87, q: "Penawaran merujuk kepada:", opts: ["Jumlah wang yang disimpan oleh pengguna", "Kuantiti barang atau perkhidmatan yang sanggup ditawarkan oleh pengeluar pada harga tertentu", "Jumlah penduduk sesebuah negara", "Bilangan sekolah dalam sesebuah daerah"], ans: "B", exp: "Kuantiti barang atau perkhidmatan yang sanggup ditawarkan oleh pengeluar pada harga tertentu. Penawaran berkaitan dengan jumlah yang ingin dijual oleh pengeluar pada keadaan tertentu." },
+            { id: 88, q: "Jika harga sesuatu barang meningkat, faktor lain kekal sama, apakah yang biasanya berlaku terhadap kuantiti barang itu yang diminta oleh pengguna?", opts: ["Kuantiti diminta semestinya meningkat", "Kuantiti diminta biasanya menurun", "Kuantiti diminta tidak mungkin berubah", "Semua pengguna akan berhenti membeli barang tersebut"], ans: "B", exp: "Kuantiti diminta biasanya menurun. Mengikut hukum permintaan, jika faktor lain kekal sama, kenaikan harga biasanya mengurangkan kuantiti yang diminta." },
+            { id: 89, q: "Aktiviti memulakan dan menguruskan perniagaan dengan mengambil risiko untuk menawarkan produk atau perkhidmatan dikenali sebagai:", opts: ["Keusahawanan", "Pengarkiban", "Pemuliharaan", "Penguatkuasaan"], ans: "A", exp: "Keusahawanan. Keusahawanan melibatkan usaha memulakan dan menguruskan perniagaan serta mengambil risiko yang berkaitan." },
+            { id: 90, q: "Barang yang dijual dari Malaysia ke negara lain disebut:", opts: ["Import", "Eksport", "Subsidi", "Simpanan"], ans: "B", exp: "Eksport. Eksport ialah barang atau perkhidmatan yang dijual ke negara lain." },
+            { id: 91, q: "Barang yang dibeli dari negara lain untuk digunakan atau dijual di Malaysia disebut:", opts: ["Eksport", "Pelaburan domestik sahaja", "Import", "Derma"], ans: "C", exp: "Import. Import ialah barang atau perkhidmatan yang dibeli dari negara lain." },
+            { id: 92, q: "Konsep ekonomi yang menggalakkan penggunaan semula, pembaikan dan kitar semula untuk mengurangkan pembaziran dikenali sebagai:", opts: ["Ekonomi linear", "Ekonomi tertutup tanpa perdagangan", "Ekonomi kitaran", "Ekonomi tunai sahaja"], ans: "C", exp: "Ekonomi kitaran. Ekonomi kitaran menggalakkan penggunaan semula, pembaikan dan kitar semula untuk mengurangkan pembaziran sumber." },
+            { id: 93, q: "Istilah jejak karbon merujuk kepada:", opts: ["Kesan pelepasan gas rumah hijau yang berkaitan dengan aktiviti seseorang, organisasi atau produk", "Jumlah tapak kaki yang ditinggalkan di atas tanah", "Bilangan pokok di taman", "Ukuran panjang jalan raya"], ans: "A", exp: "Kesan pelepasan gas rumah hijau yang berkaitan dengan aktiviti seseorang, organisasi atau produk. Jejak karbon digunakan untuk memahami sumbangan aktiviti terhadap pelepasan gas rumah hijau." },
+            { id: 94, q: "Gas yang banyak dihasilkan melalui pembakaran bahan api fosil dan menyumbang kepada pemanasan global ialah:", opts: ["Helium", "Karbon dioksida", "Neon", "Argon"], ans: "B", exp: "Karbon dioksida. Pembakaran bahan api fosil membebaskan karbon dioksida, yang menyumbang kepada pemanasan global." },
+            { id: 95, q: "Fenomena pulau haba bandar berlaku apabila:", opts: ["Kawasan bandar menjadi lebih sejuk daripada semua kawasan luar bandar pada setiap masa", "Suhu kawasan bandar cenderung lebih tinggi berbanding kawasan sekitarnya, antara lain akibat permukaan berturap dan kekurangan tumbuh-tumbuhan", "Semua bangunan bandar menghasilkan salji", "Suhu Bumi menurun secara mendadak setiap malam"], ans: "B", exp: "Suhu kawasan bandar cenderung lebih tinggi berbanding kawasan sekitarnya. Permukaan berturap, bangunan dan kekurangan tumbuh-tumbuhan boleh menyumbang kepada fenomena pulau haba bandar." },
+            { id: 96, q: "Antara berikut, yang manakah langkah yang baik untuk menjimatkan tenaga elektrik di rumah?", opts: ["Membiarkan lampu terpasang di bilik kosong", "Membuka penghawa dingin ketika tingkap terbuka tanpa keperluan", "Mematikan lampu dan peralatan elektrik apabila tidak digunakan", "Membiarkan semua peralatan dalam keadaan hidup sepanjang hari"], ans: "C", exp: "Mematikan lampu dan peralatan elektrik apabila tidak digunakan. Amalan ini membantu mengurangkan penggunaan tenaga yang tidak diperlukan." },
+            { id: 97, q: "Apakah tujuan sistem amaran awal bencana?", opts: ["Memberikan maklumat awal supaya orang ramai boleh mengambil langkah keselamatan", "Menjamin bahawa bencana tidak akan berlaku", "Menggantikan semua pasukan penyelamat", "Menghalang orang ramai daripada menerima maklumat cuaca"], ans: "A", exp: "Memberikan maklumat awal supaya orang ramai boleh mengambil langkah keselamatan. Sistem amaran awal membantu masyarakat membuat persediaan menghadapi kemungkinan bencana." },
+            { id: 98, q: "Jika menerima mesej yang mendesak supaya wang dipindahkan ke akaun tertentu atas alasan kecemasan, apakah tindakan paling selamat?", opts: ["Memindahkan wang serta-merta tanpa semakan", "Menyebarkan nombor akaun itu kepada semua kenalan", "Mengabaikan semua langkah keselamatan", "Mengesahkan permintaan melalui saluran rasmi atau menghubungi individu berkenaan menggunakan nombor yang diketahui sah"], ans: "D", exp: "Mengesahkan permintaan melalui saluran rasmi atau menghubungi individu berkenaan menggunakan nombor yang diketahui sah. Pengesahan dapat membantu mengelakkan penipuan pemindahan wang." },
+            { id: 99, q: "Apakah tindakan awal yang sesuai apabila seseorang mengalami kecederaan ringan?", opts: ["Memberikan ubat tanpa mengetahui kesesuaiannya", "Memastikan keadaan selamat, mendapatkan bantuan yang sesuai dan memberikan pertolongan cemas mengikut pengetahuan yang betul", "Memaksa mangsa meneruskan aktiviti", "Mengabaikan kecederaan tersebut"], ans: "B", exp: "Memastikan keadaan selamat, mendapatkan bantuan yang sesuai dan memberikan pertolongan cemas mengikut pengetahuan yang betul. Keselamatan mangsa dan pemberi bantuan perlu diutamakan." },
+            { id: 100, q: "Seorang murid terpisah daripada keluarganya di tempat awam yang sesak. Apakah tindakan paling selamat?", opts: ["Mengikut orang yang tidak dikenali yang menawarkan untuk membawanya pulang", "Meninggalkan kawasan itu seorang diri tanpa memberitahu sesiapa", "Mendapatkan bantuan daripada petugas yang dikenal pasti, seperti pegawai keselamatan atau kaunter maklumat", "Menerima pelawaan menaiki kenderaan orang yang tidak dikenali"], ans: "C", exp: "Mendapatkan bantuan daripada petugas yang dikenal pasti, seperti pegawai keselamatan atau kaunter maklumat. Petugas yang dikenal pasti boleh membantu menghubungi keluarga atau pihak yang bertanggungjawab dengan lebih selamat." }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null); // stores { selected: 'A', isCorrect: true/false }
+        let score = 0;
+
+        // Elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const quizStatusBar = document.getElementById('quiz-status-bar');
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+
+        const currentQNum = document.getElementById('current-q-num');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const currentScoreEl = document.getElementById('current-score');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            quizStatusBar.classList.remove('hidden');
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            score = 0;
+            updateScoreUI();
+            loadQuestion();
+        }
+
+        function restartQuiz() {
+            resultsScreen.classList.add('hidden');
+            startQuiz();
+        }
+
+        function loadQuestion() {
+            const data = quizData[currentQuestionIndex];
+            
+            // UI Updates
+            currentQNum.textContent = currentQuestionIndex + 1;
+            questionText.textContent = `${data.id}. ${data.q}`;
+            
+            const progress = Math.round(((currentQuestionIndex + 1) / quizData.length) * 100);
+            progressBar.style.width = `${progress}%`;
+            progressPercent.textContent = `${progress}%`;
+
+            // Navigation state
+            btnPrev.disabled = currentQuestionIndex === 0;
+
+            if (currentQuestionIndex === quizData.length - 1) {
+                btnNext.innerHTML = `<span>Selesai</span> <i class="fa-solid fa-check-circle"></i>`;
+            } else {
+                btnNext.innerHTML = `<span>Seterusnya</span> <i class="fa-solid fa-chevron-right"></i>`;
+            }
+
+            // Render Options
+            optionsContainer.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const answered = userAnswers[currentQuestionIndex];
+
+            data.opts.forEach((opt, idx) => {
+                const optLetter = labels[idx];
+                const button = document.createElement('button');
+                button.className = `w-full text-left p-4 rounded-2xl border-2 transition-all flex items-start space-x-3 text-sm font-semibold leading-relaxed group `;
+
+                if (!answered) {
+                    button.className += `bg-white border-slate-200 text-slate-700 hover:border-blue-400 hover:bg-blue-50/50 active:scale-[0.99]`;
+                    button.onclick = () => selectOption(optLetter);
+                } else {
+                    button.disabled = true;
+                    if (optLetter === data.ans) {
+                        // Correct Answer Style
+                        button.className += `bg-emerald-50 border-emerald-500 text-emerald-900 shadow-sm`;
+                    } else if (optLetter === answered.selected && !answered.isCorrect) {
+                        // Wrong Choice Style
+                        button.className += `bg-rose-50 border-rose-500 text-rose-900`;
+                    } else {
+                        // Inactive Choices
+                        button.className += `bg-slate-50 border-slate-200 text-slate-400 opacity-60`;
+                    }
+                }
+
+                // Option badge (A, B, C, D)
+                let badgeClass = "bg-slate-100 text-slate-600 group-hover:bg-blue-600 group-hover:text-white";
+                if (answered) {
+                    if (optLetter === data.ans) badgeClass = "bg-emerald-600 text-white";
+                    else if (optLetter === answered.selected) badgeClass = "bg-rose-600 text-white";
+                    else badgeClass = "bg-slate-200 text-slate-400";
+                }
+
+                button.innerHTML = `
+                    <span class="w-7 h-7 rounded-xl ${badgeClass} text-xs font-bold flex items-center justify-center flex-shrink-0 transition-colors">
+                        ${optLetter}
+                    </span>
+                    <span class="pt-0.5">${opt}</span>
+                `;
+                optionsContainer.appendChild(button);
+            });
+
+            // Feedback Display
+            if (answered) {
+                feedbackBox.classList.remove('hidden');
+                if (answered.isCorrect) {
+                    feedbackBox.className = "mb-6 p-4 sm:p-5 rounded-2xl border bg-emerald-50/90 border-emerald-200 text-emerald-900";
+                    feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i> <span class="text-emerald-800">Tahniah! Jawapan Betul</span>`;
+                } else {
+                    feedbackBox.className = "mb-6 p-4 sm:p-5 rounded-2xl border bg-rose-50/90 border-rose-200 text-rose-900";
+                    feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i> <span class="text-rose-800">Jawapan Kurang Tepat</span>`;
+                }
+                feedbackExplanation.innerHTML = `<p class="mt-1"><strong>Huraian Jawapan:</strong> ${data.exp}</p>`;
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+        }
+
+        function selectOption(selectedLetter) {
+            const data = quizData[currentQuestionIndex];
+            const isCorrect = selectedLetter === data.ans;
+
+            userAnswers[currentQuestionIndex] = {
+                selected: selectedLetter,
+                isCorrect: isCorrect
+            };
+
+            if (isCorrect) {
+                score++;
+                updateScoreUI();
+            }
+
+            loadQuestion();
+        }
+
+        function updateScoreUI() {
+            currentScoreEl.textContent = score;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            quizScreen.classList.add('hidden');
+            quizStatusBar.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            const finalScoreEl = document.getElementById('final-score');
+            const correctCountEl = document.getElementById('correct-count');
+            const wrongCountEl = document.getElementById('wrong-count');
+            const gradeBadge = document.getElementById('grade-badge');
+
+            finalScoreEl.textContent = score;
+            correctCountEl.textContent = score;
+            wrongCountEl.textContent = quizData.length - score;
+
+            const percentage = (score / quizData.length) * 100;
+            if (percentage >= 80) {
+                gradeBadge.textContent = "CEMERLANG (A)";
+                gradeBadge.className = "inline-block bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs px-3 py-1 rounded-full font-bold";
+            } else if (percentage >= 60) {
+                gradeBadge.textContent = "MEMUASKAN (B)";
+                gradeBadge.className = "inline-block bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs px-3 py-1 rounded-full font-bold";
+            } else {
+                gradeBadge.textContent = "PERLU TINGKATKAN LATIHAN";
+                gradeBadge.className = "inline-block bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs px-3 py-1 rounded-full font-bold";
+            }
+        }
+
+        function toggleQuestionGrid() {
+            const modal = document.getElementById('grid-modal');
+            const gridContainer = document.getElementById('grid-buttons');
+            
+            if (modal.classList.contains('hidden')) {
+                gridContainer.innerHTML = '';
+                quizData.forEach((q, idx) => {
+                    const btn = document.createElement('button');
+                    const ans = userAnswers[idx];
+                    
+                    let btnClass = "bg-slate-100 text-slate-700 hover:bg-slate-200";
+                    if (idx === currentQuestionIndex) {
+                        btnClass = "bg-blue-600 text-white font-bold ring-2 ring-blue-400";
+                    } else if (ans) {
+                        btnClass = ans.isCorrect ? "bg-emerald-500 text-white font-bold" : "bg-rose-500 text-white font-bold";
+                    }
+
+                    btn.className = `p-2.5 rounded-xl text-xs font-semibold transition ${btnClass}`;
+                    btn.textContent = idx + 1;
+                    btn.onclick = () => {
+                        currentQuestionIndex = idx;
+                        loadQuestion();
+                        modal.classList.add('hidden');
+                    };
+                    gridContainer.appendChild(btn);
+                });
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
